@@ -1,0 +1,1 @@
+CREATE DATABASE `db_test` CHARACTER SET 'utf8mb4';

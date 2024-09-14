@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: first-demo
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql:///db_test?characterEncoding=utf-8
+#mybatisplus配置
+mybatis-plus:
+  global-config:
+    db-config:
+      #配置id自增长
+      id-type: auto
+  configuration:
+    #配置mybatisplus日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:/mapper/*.mapper.xml

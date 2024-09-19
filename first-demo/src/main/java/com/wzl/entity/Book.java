@@ -3,6 +3,7 @@ package com.wzl.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import springfox.documentation.spring.web.json.Json;
 
 @Data
 @AllArgsConstructor
@@ -15,9 +16,11 @@ public class Book {
 
     private String author;
 
-    private String press;
+    private String createTime;
 
-    private String price;
+    private String num;
 
     private String isbn;
+
+    private Json info;
 }

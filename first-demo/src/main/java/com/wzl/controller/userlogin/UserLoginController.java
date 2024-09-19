@@ -1,5 +1,6 @@
 package com.wzl.controller.userlogin;
 
+import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.digest.BCrypt;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -20,8 +21,8 @@ public class UserLoginController {
 
     @PostMapping("/register")
     public ResponseResult register(User user) {
-        BasicTextEncryptor encryptor = new BasicTextEncryptor();
-        user.setPassword(encryptor.encrypt(user.getPassword()));
+        String hashpw = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+        user.setPassword(hashpw);
         if (userService.save(user)){
             return ResponseResult.success(200,"注册成功！");
         }
@@ -37,13 +38,16 @@ public class UserLoginController {
     }
 
     @PostMapping("/login")
-    public ResponseResult login(String username, String password) {
-        User user = userService.getOne(new QueryWrapper<User>().eq("username", username));
+    public ResponseResult login(String account, String password) {
+        User user = userService.getOne(new QueryWrapper<User>().eq("account", account));
         if (user == null) {
             return ResponseResult.fail(400, "用户不存在");
         }
         if (BCrypt.checkpw(password, user.getPassword())) {
-            return ResponseResult.success(200, "登录成功");
+            if (user.getRoleId()==1){
+                return ResponseResult.success(200, "登录成功",1);
+            }
+            return ResponseResult.success(200, "登录成功",0);
         }
         return ResponseResult.fail(400, "密码错误");
     }

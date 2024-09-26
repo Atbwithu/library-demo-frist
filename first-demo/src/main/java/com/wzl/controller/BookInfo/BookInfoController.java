@@ -7,6 +7,7 @@ import com.wzl.entity.Book;
 import com.wzl.service.BookService;
 import com.wzl.utils.ResponseResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,7 @@ public class BookInfoController {
     BookService bookService;
     //查询所有
     @GetMapping("getAllBook")
+    @Cacheable("allBooks")
     public ResponseResult BookInfoController() {
         return ResponseResult.success(200,"请求成功",bookService.list());
     }

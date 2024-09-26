@@ -6,6 +6,12 @@ spring:
     username: root
     password: root
     url: jdbc:mysql:///db_test?characterEncoding=utf-8
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+
 #mybatisplus配置
 mybatis-plus:
   global-config:
@@ -16,3 +22,5 @@ mybatis-plus:
     #配置mybatisplus日志
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:/mapper/*.mapper.xml
+server:
+  port: 8082

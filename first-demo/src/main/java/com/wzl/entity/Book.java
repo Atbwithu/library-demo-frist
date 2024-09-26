@@ -16,11 +16,16 @@ public class Book {
 
     private String author;
 
+    private String cover;
+
     private String createTime;
 
     private String num;
 
     private String isbn;
 
+    private String introduction;
+
     private Json info;
+
 }

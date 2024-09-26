@@ -1,6 +1,7 @@
 package com.wzl.utils;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.json.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -9,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 @Configuration
@@ -25,7 +27,7 @@ public class ToKenUtil {
                 .withSubject(jsonObject.toString())
                 .withIssuer(ISSUER)
                 .withExpiresAt(DateUtil.offsetMinute(new Date(),EXPIRE_TIME))
-                .withClaim("test","123")
+                .withClaim(RandomUtil.randomString(6),new Random().nextInt(100,999))
                 .sign(Algorithm.HMAC256(ENCRYPT_KEY));
     }
 

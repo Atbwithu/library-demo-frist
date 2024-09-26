@@ -11,7 +11,10 @@
     "axios": "^1.7.7",
     "core-js": "^3.8.3",
     "element-ui": "^2.15.14",
-    "vue": "^2.6.14"
+    "vue": "^2.6.14",
+    "vue-infinite-scroll": "^2.0.2",
+    "vue-router": "^3.5.2",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -21,6 +24,7 @@
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
+    "vue-lazyload": "^3.0.0",
     "vue-template-compiler": "^2.6.14"
   },
   "eslintConfig": {

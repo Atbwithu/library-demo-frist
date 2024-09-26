@@ -8,24 +8,32 @@ import com.wzl.entity.User;
 import com.wzl.service.UserService;
 import com.wzl.service.impl.UserServiceImpl;
 import com.wzl.utils.ResponseResult;
+import com.wzl.utils.SavePictureUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.Cacheable;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/info")
 public class UserInfoController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    RedisTemplate redisTemplate;
     /**
      * 查询所以用户
      * @return
      */
     @GetMapping("/getAll")
+    @Cacheable("allUser")
     public List<User> getAll(){
         return userService.list();
     }
@@ -85,6 +93,11 @@ public class UserInfoController {
     public ResponseResult getUserById(Integer id){
         User user = userService.getById(id);
         return ResponseResult.success(200,"true",user);
+    }@GetMapping("getUserInfo")
+    public ResponseResult getUserInfo(){
+
+        User user = userService.getById((Integer)redisTemplate.opsForValue().get("userId"));
+        return ResponseResult.success(200,"true",user);
     }
     /**
      * 更新用户信息
@@ -107,6 +120,23 @@ public class UserInfoController {
             return ResponseResult.success(200,"新增成功");
         }
         return ResponseResult.fail(400,"新增失败，请稍后重试！");
+    }
+    //上传用户头像
+    @PostMapping("uploadPicture")
+    @ResponseBody
+    @Transactional
+    public ResponseResult add(@RequestParam("file") MultipartFile file){
+        if (file!=null){
+            User user = userService.getOne(new QueryWrapper<User>()
+                    .eq("id",(Integer) redisTemplate.opsForValue().get("userId")));
+            String string = new SavePictureUtil().savePicture(file);
+            user.setImg(string);
+            if (userService.updateById(user)){
+                return ResponseResult.success(200,"true");
+            }
+            return ResponseResult.fail(400,"上传失败");
+        }
+        return null;
     }
 
 }

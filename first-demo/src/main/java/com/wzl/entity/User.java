@@ -15,6 +15,8 @@ public class User {
     private String account;
     private String password;
     private Integer status;
+    private Integer phone;
+    private String img; //头像
     private int roleId;
     private String createTime;
 }
